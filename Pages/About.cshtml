@@ -1,0 +1,30 @@
+﻿@page
+@model CyberUniversity.Pages.AboutModel
+@{
+    ViewData["Title"] = "Student Body Statistics";
+}
+
+<h2>Student Statistics</h2>
+
+<table class="table table-striped table-bordered">
+    <tr>
+        <th>
+            Enrollment Date
+        </th>
+        <th>
+            Total Students
+        </th>
+    </tr>
+
+    @foreach (var item in Model.Students)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.EnrollmentDate)
+            </td>
+            <td>
+                @item.StudentCount
+            </td>
+        </tr>
+    }
+</table>

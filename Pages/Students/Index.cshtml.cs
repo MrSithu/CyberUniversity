@@ -25,13 +25,24 @@ namespace CyberUniversity.Pages.Students
         public string CurrentFilter { get; set; }
         public string CurrentSort { get; set; }
 
-        public IList<Student> Student { get;set; }
+        public PaginatedList<Student> Students { get;set; }
 
-        public async Task OnGetAsync(string sortOrder, string searchString)
+        public async Task OnGetAsync(string sortOrder, string searchString, 
+            string currentFilter, int? pageIndex)
         {
+            CurrentSort = sortOrder;
             // using System;
             NameSort = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
             DateSort = sortOrder == "Date" ? "date_desc" : "Date";
+
+            if (searchString != null)
+            {
+                pageIndex = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
 
             CurrentFilter = searchString;
 
@@ -60,7 +71,9 @@ namespace CyberUniversity.Pages.Students
                     break;
             }
 
-            Student = await _context.Students.ToListAsync();        
+            int pageSize = 5;
+            Students = await PaginatedList<Student>.CreateAsync(
+                studentsIQ.AsNoTracking(), pageIndex ?? 1, pageSize);
         }
     }
 }
