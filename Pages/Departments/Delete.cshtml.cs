@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using CyberUniversity.Data;
 using CyberUniversity.Models;
 
-namespace CyberUniversity.Pages.Courses
+namespace CyberUniversity.Pages.Departments
 {
     public class DeleteModel : PageModel
     {
@@ -20,7 +20,7 @@ namespace CyberUniversity.Pages.Courses
         }
 
         [BindProperty]
-        public Course Course { get; set; }
+        public Department Department { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -29,11 +29,10 @@ namespace CyberUniversity.Pages.Courses
                 return NotFound();
             }
 
-            Course = await _context.Courses
-                .AsNoTracking()
-                .Include(c => c.Department).FirstOrDefaultAsync(m => m.CourseID == id);
+            Department = await _context.Departments
+                .Include(d => d.Administrator).FirstOrDefaultAsync(m => m.DepartmentID == id);
 
-            if (Course == null)
+            if (Department == null)
             {
                 return NotFound();
             }
@@ -47,11 +46,11 @@ namespace CyberUniversity.Pages.Courses
                 return NotFound();
             }
 
-            Course = await _context.Courses.FindAsync(id);
+            Department = await _context.Departments.FindAsync(id);
 
-            if (Course != null)
+            if (Department != null)
             {
-                _context.Courses.Remove(Course);
+                _context.Departments.Remove(Department);
                 await _context.SaveChangesAsync();
             }
 
