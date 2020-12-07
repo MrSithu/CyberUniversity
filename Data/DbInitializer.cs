@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Linq;
 using CyberUniversity.Models;
-using CyberUniversity.Data;
 
-namespace ContosoUniversity.Data
+namespace CyberUniversity.Data
 {
     public static class DbInitializer
     {
